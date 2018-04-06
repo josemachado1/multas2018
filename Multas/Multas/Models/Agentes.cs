@@ -17,10 +17,17 @@ namespace Multas.Models
         [Key]
         public int ID { get; set; }
 
+        [Required(ErrorMessage ="o {0} é de preenchimento obrigatório!")] // o atributo nome é de preenchimento obrigatorio
+        [RegularExpression("[A-ZÂÍ][a-záéíóúãõàèìòùâêîôûç.]+(( | de | da | dos | d' |-)[A-ZÂÍ][a-záéíóúãõàèìòùâêîôûç]+){1,3}", 
+            ErrorMessage ="o nome apenas aceita letras. Cada palavra começa por uma maiscula, seguida de minusculas...")]
+        [StringLength(40)]
         public string Nome { get; set; }
 
-        public string Ftotografia { get; set; }
+        [Required(ErrorMessage = "o {0} é de preenchimento obrigatório!")]
+        public string Fotografia { get; set; }
 
+        [Required(ErrorMessage = "o {0} é de preenchimento obrigatório!")]
+        [RegularExpression("[A-z 0-9-]+",ErrorMessage ="Escreva um nome aceitavel...")]
         public string Esquadra { get; set; }
 
         //complementar a informaçao sobre o relacionamento de um Agente com as Multas por ele 'passadas'
