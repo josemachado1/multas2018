@@ -16,7 +16,7 @@ namespace Multas.Models
 
         public string LocalDaMulta { get; set; }
 
-        public decimal ValorMulta { get; set; }
+        public double ValorMulta { get; set; }
 
         public DateTime DataDaMulta { get; set; }
 

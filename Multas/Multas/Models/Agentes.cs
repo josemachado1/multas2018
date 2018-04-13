@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -15,11 +16,12 @@ namespace Multas.Models
         }
 
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int ID { get; set; }
 
         [Required(ErrorMessage ="o {0} é de preenchimento obrigatório!")] // o atributo nome é de preenchimento obrigatorio
-        [RegularExpression("[A-ZÂÍ][a-záéíóúãõàèìòùâêîôûç.]+(( | de | da | dos | d' |-)[A-ZÂÍ][a-záéíóúãõàèìòùâêîôûç]+){1,3}", 
-            ErrorMessage ="o nome apenas aceita letras. Cada palavra começa por uma maiscula, seguida de minusculas...")]
+        [RegularExpression("[A-ZÂÍ][a-záéíóúãõàèìòùâêîôûäëïöüç.]+(( | de | da | dos | d'|-)[A-ZÂÍ][a-záéíóúãõàèìòùâêîôûäëïöüç.]+){1,3}",
+           ErrorMessage = "O nome apenas aceita letras. Cada palavra começa por uma maiúscula, seguida de minúsculas...")]
         [StringLength(40)]
         public string Nome { get; set; }
 
@@ -27,7 +29,7 @@ namespace Multas.Models
         public string Fotografia { get; set; }
 
         [Required(ErrorMessage = "o {0} é de preenchimento obrigatório!")]
-        [RegularExpression("[A-z 0-9-]+",ErrorMessage ="Escreva um nome aceitavel...")]
+        [RegularExpression("[A-Za-zé 0-9-]+",ErrorMessage ="Escreva um nome aceitavel...")]
         public string Esquadra { get; set; }
 
         //complementar a informaçao sobre o relacionamento de um Agente com as Multas por ele 'passadas'
