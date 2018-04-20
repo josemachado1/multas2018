@@ -25,7 +25,12 @@ namespace Multas.Models
 
         public virtual DbSet<Condutores> Condutores { get; set; }
 
-        // configurar a forma como as tabelas sao criadas
+
+
+        /// <summary>
+        ///  configurar a forma como as tabelas sao criadas
+        /// </summary>
+        /// <param name="modelBuilder">objeto que referencia o gerador de base de dados</param>
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
 
