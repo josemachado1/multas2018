@@ -214,6 +214,9 @@ namespace Multas.Controllers
             return View(agente);
         }
 
+
+
+
         // GET: Agentes/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -237,18 +240,34 @@ namespace Multas.Controllers
             return View(agente);
         }
 
+
+
         // POST: Agentes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
             // procurar o Agente
-            Agentes agentes = db.Agentes.Find(id);
+            Agentes agente = db.Agentes.Find(id);
+
+            try
+            {
             // remover da memória
-            db.Agentes.Remove(agentes);
+            db.Agentes.Remove(agente);
             // commit na BD
             db.SaveChanges();
+                //redirecionar para a pagina inicial 
             return RedirectToAction("Index");
+            }
+            catch (Exception)
+            {
+                //gerar uma mensagem de erro, a ser apresentada ao utilizar
+                ModelState.AddModelError("", string.Format("Nao foi possivel remover o Agente '{0}', porque existem {1} multas associadas a ele. ",agente.Nome, agente.ListaDeMultas.Count));
+            }
+            //reenviar os dados para a View
+
+            return View(agente);
+
         }
 
         protected override void Dispose(bool disposing)
