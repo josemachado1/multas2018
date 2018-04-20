@@ -78,10 +78,28 @@ namespace Multas.Controllers
         {
 
             // determinar o ID do novo Agente
-            int novoID = db.Agentes.Max(a => a.ID) + 1;
+            int novoID = 0;
+            //***********************************************
+            //proteger a geraçao de um novo ID
+            //***********************************************
+            //determinar o nº de Agentes na tabela
+            if (db.Agentes.Count() == 0)
+            {
+                novoID = 1;
+            }
+            else{
+             novoID = db.Agentes.Max(a => a.ID) + 1;
 
-            // atribuir o ID ao novo agente
+            }
+
+           // atribuir o ID ao novo agente
             agente.ID = novoID;
+            //********************************************
+            //outra hipotse possivel seria utilizar o 
+            //try{ }
+            //catch(Exception) { }
+            //********************************************
+
 
             // var. auxiliar
             string nomeFotografia = "Agente_" + novoID + ".jpg";
@@ -107,6 +125,8 @@ namespace Multas.Controllers
             // se não respeitar as regras do modelo, rejeita os dados
             if (ModelState.IsValid)
             {
+                try
+                {
                 // adiciona na estrutura de dados, na memória do servidor,
                 // o objeto Agentes
                 db.Agentes.Add(agente);
@@ -118,8 +138,16 @@ namespace Multas.Controllers
 
                 // redireciona o utilizador para a página de início
                 return RedirectToAction("Index");
-            }
 
+                }
+                catch (Exception)
+                {
+                    //gerar uma mensagem de erro para o utilizador 
+                    ModelState.AddModelError("", "Ocorreu um erro nao determinado na criaçao do novo Agente...");
+                }
+               
+            }
+            //se se chegar aqui, é pq aconteceu um problema...
             // devolve os dados do agente à View
             return View(agente);
         }
