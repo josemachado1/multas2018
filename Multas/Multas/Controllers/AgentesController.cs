@@ -43,20 +43,24 @@ namespace Multas.Controllers
             // protege a execução do método contra a Não existencia de dados
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+                //ou nao foi introduzido um ID valido, ou foi introduzido um valor completamente errado
+                return RedirectToAction("Index");
             }
 
             // vai procurar o Agente cujo ID foi fornecido
-            Agentes agentes = db.Agentes.Find(id);
+            Agentes agente = db.Agentes.Find(id);
 
             // se o Agente NÃO for encontrado...
-            if (agentes == null)
+            if (agente == null)
             {
-                return HttpNotFound();
+                // return HttpNotFound();
+                return RedirectToAction("Index");
             }
 
             // envia para a View os dados do Agente
-            return View(agentes);
+            return View(agente);
         }
 
 
@@ -155,37 +159,59 @@ namespace Multas.Controllers
             return View(agente);
         }
 
+
+
+
         // GET: Agentes/Edit/5
         public ActionResult Edit(int? id)
         {
+            // int? - significa que pode haver valores nulos
+
+            // protege a execução do método contra a Não existencia de dados
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+                //ou nao foi introduzido um ID valido, ou foi introduzido um valor completamente errado
+                return RedirectToAction("Index");
             }
-            Agentes agentes = db.Agentes.Find(id);
-            if (agentes == null)
+
+            // vai procurar o Agente cujo ID foi fornecido
+            Agentes agente = db.Agentes.Find(id);
+
+            // se o Agente NÃO for encontrado...
+            if (agente == null)
             {
-                return HttpNotFound();
+                // return HttpNotFound();
+                return RedirectToAction("Index");
             }
-            return View(agentes);
+
+            return View(agente);
         }
+
+
+
+
 
         // POST: Agentes/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Nome,Fotografia,Esquadra")] Agentes agentes)
+        public ActionResult Edit([Bind(Include = "ID,Nome,Fotografia,Esquadra")] Agentes agente)
         {
+            //falta tratar das imagens como foi feito no Create
+
+
             if (ModelState.IsValid)
             {
                 // atualiza os dados do Agente, na estrutura de dados em memória
-                db.Entry(agentes).State = EntityState.Modified;
+                db.Entry(agente).State = EntityState.Modified;
                 // Commit
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(agentes);
+            return View(agente);
         }
 
         // GET: Agentes/Delete/5
@@ -193,14 +219,22 @@ namespace Multas.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+                //ou nao foi introduzido um ID valido, ou foi introduzido um valor completamente errado
+                return RedirectToAction("Index");
             }
-            Agentes agentes = db.Agentes.Find(id);
-            if (agentes == null)
+
+            // vai procurar o Agente cujo ID foi fornecido
+            Agentes agente = db.Agentes.Find(id);
+
+            // se o Agente NÃO for encontrado...
+            if (agente == null)
             {
-                return HttpNotFound();
+                // return HttpNotFound();
+                return RedirectToAction("Index");
             }
-            return View(agentes);
+            return View(agente);
         }
 
         // POST: Agentes/Delete/5
