@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace Multas.Models
+namespace MultasProj.Models
 {
     public class Viaturas
     {

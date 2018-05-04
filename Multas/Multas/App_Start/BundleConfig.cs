@@ -1,6 +1,6 @@
 ﻿using System.Web.Optimization;
 
-namespace Multas
+namespace MultasProj
 {
     public class BundleConfig
     {

@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
-namespace Multas.Models
+namespace MultasProj.Models
 {
     public class Agentes
     {
@@ -23,6 +23,7 @@ namespace Multas.Models
         [RegularExpression("[A-ZÂÍ][a-záéíóúãõàèìòùâêîôûäëïöüç.]+(( | de | da | dos | d'|-)[A-ZÂÍ][a-záéíóúãõàèìòùâêîôûäëïöüç.]+){1,3}",
            ErrorMessage = "O nome apenas aceita letras. Cada palavra começa por uma maiúscula, seguida de minúsculas...")]
         [StringLength(40)]
+        [Display(Name ="Nome do Agente")]
         public string Nome { get; set; }
 
        // [Required(ErrorMessage = "o {0} é de preenchimento obrigatório!")]
@@ -34,5 +35,12 @@ namespace Multas.Models
 
         //complementar a informaçao sobre o relacionamento de um Agente com as Multas por ele 'passadas'
         public virtual ICollection<Multas> ListaDeMultas { get; set; }
+
+
+        //********************************************************************************
+        //criar uma FK para o utilizador autenticado
+        
+        public string UserName { get; set; }
+
     }
 }

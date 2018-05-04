@@ -6,10 +6,10 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using Multas.Models;
+using MultasProj.Models;
 using System.IO;
 
-namespace Multas.Controllers
+namespace MultasProj.Controllers
 {
     public class AgentesController : Controller
     {
