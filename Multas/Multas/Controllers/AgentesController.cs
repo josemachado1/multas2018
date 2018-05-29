@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using MultasProj.Models;
 using System.IO;
+using Microsoft.AspNet.Identity;
 
 namespace MultasProj.Controllers
 {
@@ -19,6 +20,15 @@ namespace MultasProj.Controllers
         // GET: Agentes
         public ActionResult Index()
         {
+
+
+            //recuperar os dados pessoais da pessoa que se autenticou
+            var dadosPessoais = db.Users.Find(User.Identity.GetUserId());
+            //agora, com este objeto, ja posso utilizar os dados pessoais
+            //de um utilizador no meu programa
+            //por exemplo:
+            Session["nomeUtilizador"] = dadosPessoais.NomeProprio + " " + dadosPessoais.Apelido;
+
 
             // (LINQ)db.Agente.ToList() --> em SQL: SELECT * FROM Agentes ORDER BY Nome
             // constroi uma lista com os dados de todos os Agentes

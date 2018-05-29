@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Security.Claims;
@@ -14,6 +15,23 @@ namespace MultasProj.Models
         /// </summary>
     public class ApplicationUser : IdentityUser
     {
+
+
+        /// <summary>
+        /// os atributos q aqui vao ser adicionados
+        /// serao adicionados à tabela dos utilizadores
+        /// </summary>
+
+
+        public string NomeProprio { get; set; }
+
+        public string Apelido { get; set; }
+
+        public DateTime? DataNascimento { get; set; }
+
+        public string NIF { get; set; }
+
+
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
