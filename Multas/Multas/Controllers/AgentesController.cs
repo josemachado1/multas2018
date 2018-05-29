@@ -12,11 +12,22 @@ using Microsoft.AspNet.Identity;
 
 namespace MultasProj.Controllers
 {
+
+//[Authorize] //so pessoas autenticadas é q podem executar estes recursos
+
+ [Authorize(Roles ="Agentes")]
+ [Authorize(Roles = "Admin")]
+
+
     public class AgentesController : Controller
     {
+
         // cria um objeto privado, que representa a base de dados
         private ApplicationDbContext db = new ApplicationDbContext();
 
+
+        [AllowAnonymous] //apesar de haver restriçoes de acesso
+                        //um user anonimo pode executar este metodo
         // GET: Agentes
         public ActionResult Index()
         {
