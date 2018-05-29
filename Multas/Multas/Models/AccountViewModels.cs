@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Multas.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -91,16 +92,24 @@ namespace MultasProj.Models
         //*********************************************************************************
         //atributos 'especificos' de um utilizador
         //*********************************************************************************
-
+        /*
         [Required(ErrorMessage ="O {0} é de preenchimento obrigatorio")]
         [Display(Name ="Nome Proprio")]
         public string NomeProprio { get; set; }
 
         public string Apelido { get; set; }
 
-        public DateTime? DataNascimento { get; set; }
+        public DateTime DataNascimento { get; set; }
 
-        public string NIF { get; set; }
+        public string NIF { get; set; } 
+        */
+        //*********************************************************************************
+        //Nesta segunda versao, basta adicionar um objeto do tipo Utilizadore, 
+        //para associar todos os atributos
+        //*********************************************************************************
+
+        public Utilizadores Utilizador { get; set; }
+
     }
 
 

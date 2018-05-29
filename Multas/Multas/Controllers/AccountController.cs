@@ -9,6 +9,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Multas.Models;
 
 namespace MultasProj.Controllers
 {
@@ -149,9 +150,42 @@ namespace MultasProj.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, NomeProprio=model.NomeProprio, Apelido=model.Apelido, NIF=model.NIF, DataNascimento=model.DataNascimento };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email,
+                   // NomeProprio =model.NomeProprio, Apelido=model.Apelido, NIF=model.NIF, DataNascimento=model.DataNascimento
+                };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
+                    try
+                    {
+
+                    ///se houve sucesso com a criaçao de um tilizador tenho de guardar os dados
+                    ///do utilizador que se registou
+                    Utilizadores utilizador = new Utilizadores();
+                utilizador = model.Utilizador;
+                //associar estes dados com o utilizador q se registou
+                utilizador.NomeRegistoDoUtilizador = user.UserName;
+                //guardar os dados na BD
+                ApplicationDbContext db = new ApplicationDbContext();
+                db.Utilizadores.Add(utilizador);
+                db.SaveChanges();
+                    }
+                    catch (Exception ex)
+                    {
+                        ///eventualmente, apagar o utilizador que se acabou de registar 
+                        ///eventualmente, reenviar à view para reescrever os dados
+                        ///eventualmente, registar numa tabela da BD o erro
+                        ///     - o nome do controller
+                        ///     - o nome do metodo
+                        ///     - a data
+                        ///     - a hora
+                        ///     - a mensagem de erro (ex.message)
+                        ///     - outros dados considerados relevantes
+                        ///eventualmente, enviar email ao Gestor do Sistema com o relatorio da ocorrencia
+                        ///
+
+                       
+                    }
+
                 {
                     var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);

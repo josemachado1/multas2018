@@ -23,11 +23,17 @@ namespace MultasProj.Controllers
 
 
             //recuperar os dados pessoais da pessoa que se autenticou
-            var dadosPessoais = db.Users.Find(User.Identity.GetUserId());
+            //  var dadosPessoais = db.Users.Find(User.Identity.GetUserId());
             //agora, com este objeto, ja posso utilizar os dados pessoais
             //de um utilizador no meu programa
             //por exemplo:
+            //   Session["nomeUtilizador"] = dadosPessoais.NomeProprio + " " + dadosPessoais.Apelido;
+
+
+            var dadosPessoais = db.Utilizadores.Where(u => u.NomeRegistoDoUtilizador.Equals(User.Identity.Name)).FirstOrDefault();
+
             Session["nomeUtilizador"] = dadosPessoais.NomeProprio + " " + dadosPessoais.Apelido;
+
 
 
             // (LINQ)db.Agente.ToList() --> em SQL: SELECT * FROM Agentes ORDER BY Nome

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using Multas.Models;
 using System;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
@@ -17,19 +18,7 @@ namespace MultasProj.Models
     {
 
 
-        /// <summary>
-        /// os atributos q aqui vao ser adicionados
-        /// serao adicionados à tabela dos utilizadores
-        /// </summary>
 
-
-        public string NomeProprio { get; set; }
-
-        public string Apelido { get; set; }
-
-        public DateTime? DataNascimento { get; set; }
-
-        public string NIF { get; set; }
 
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
@@ -80,6 +69,7 @@ namespace MultasProj.Models
         public virtual DbSet<Condutores> Condutores { get; set; }
 
 
+        public virtual DbSet<Utilizadores> Utilizadores { get; set; }
 
         /// <summary>
         ///  configurar a forma como as tabelas sao criadas
