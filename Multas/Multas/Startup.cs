@@ -10,6 +10,7 @@ namespace MultasProj
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
+
             iniciaAplicacao();
         }
 
@@ -48,6 +49,18 @@ namespace MultasProj
             }
 
 
+            // criar a Role 'GestaoDePessoal'
+            if (!roleManager.RoleExists("GestaoDePessoal"))
+            {
+                // não existe a 'role'
+                // então, criar essa role
+                var role = new IdentityRole();
+                role.Name = "GestaoDePessoal";
+                roleManager.Create(role);
+            }
+
+
+
 
             // criar um utilizador 'Agente'
             var user = new ApplicationUser();
@@ -62,7 +75,26 @@ namespace MultasProj
             {
                 var result1 = userManager.AddToRole(user.Id, "Agentes");
             }
+
+
+            // criar um utilizador 'GestaoDePessoal' - Andre
+            user = new ApplicationUser();
+            user.UserName = "andre@mail.pt";
+            user.Email = "andre@mail.pt";
+            //  user.Nome = "Luís Freitas";
+             userPWD = "123_Asd";
+             chkUser = userManager.Create(user, userPWD);
+
+            //Adicionar o Utilizador à respetiva Role-Agente-
+            if (chkUser.Succeeded)
+            {
+                var result1 = userManager.AddToRole(user.Id, "GestaoDePessoal");
+            }
         }
+    }
+
+
+  
 
     }
 }

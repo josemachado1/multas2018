@@ -15,8 +15,8 @@ namespace MultasProj.Controllers
 
 //[Authorize] //so pessoas autenticadas é q podem executar estes recursos
 
- [Authorize(Roles ="Agentes")]
- [Authorize(Roles = "Admin")]
+ [Authorize(Roles = "Agentes,GestaoDePessoal")]
+ 
 
 
     public class AgentesController : Controller
@@ -95,6 +95,7 @@ namespace MultasProj.Controllers
 
 
         // GET: Agentes/Create
+        [Authorize(Roles = "GestaoDePessoal")]
         public ActionResult Create()
         {
             return View();
@@ -103,6 +104,7 @@ namespace MultasProj.Controllers
 
 
         // POST: Agentes/Create
+        [Authorize(Roles = "GestaoDePessoal")]
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -190,6 +192,11 @@ namespace MultasProj.Controllers
 
 
         // GET: Agentes/Edit/5
+        /// <summary>
+        /// apresentar na View os dados de um agente, para eventual edição
+        /// </summary>
+        /// <param name="id"> identifica o agente editar </param>
+        /// <returns></returns>
         public ActionResult Edit(int? id)
         {
             // int? - significa que pode haver valores nulos
@@ -213,7 +220,18 @@ namespace MultasProj.Controllers
                 return RedirectToAction("Index");
             }
 
-            return View(agente);
+
+            if(User.IsInRole("GestaoDePessoal") || User.Identity.Name.Equals(agente.UserName))
+            {
+                //entrega à View os dados do Agente encontrados
+                return View(agente);
+            }
+            else
+            {
+                //nao ha permissao para editar o Agente 
+                return RedirectToAction("Index");
+            }
+           
         }
 
 
@@ -221,14 +239,30 @@ namespace MultasProj.Controllers
 
 
         // POST: Agentes/Edit/5
+        /// <summary>
+        /// concretiza a ediçao dos dados
+        /// </summary>
+        /// <param name="agente"></param>
+        /// <returns></returns>
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID,Nome,Fotografia,Esquadra")] Agentes agente)
         {
-            //falta tratar das imagens como foi feito no Create
 
+
+
+            /// se o utilizador pertence a role 'GestaoDePessoal', posso efetuar a ediçao, sem qualquer restriçao
+            /// se o utilizador nao pertence á role acima referida e NAO é o dono dos dados, NADA se pode fazer
+            /// se o utilizador nao pertence a role e É O DONO dos dados, apenas pode alterar o 'nome' e a 'fotografia'
+            ///     TAREFAS:
+            ///         1- pesquizar os dados antigos do Agente na BD
+            ///         2- substituir nos dados novos, o valor da 'esquadra' pelo dados antigos da 'esquadra'
+            ///         3- guardar dados na BD
+            ///  
+            ///         nota: claro que a validação do NOME e da FOTOGRAFIA tambem tem de acontecer       
+            
 
             if (ModelState.IsValid)
             {
@@ -236,6 +270,7 @@ namespace MultasProj.Controllers
                 db.Entry(agente).State = EntityState.Modified;
                 // Commit
                 db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
             return View(agente);
@@ -250,6 +285,7 @@ namespace MultasProj.Controllers
         /// </summary>
         /// <param name="id">identificador do agente a pesquisar</param>
         /// <returns></returns>
+        [Authorize(Roles = "GestaoDePessoal")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -280,6 +316,7 @@ namespace MultasProj.Controllers
         /// </summary>
         /// <param name="id">é o identificador do agente a remover</param>
         /// <returns></returns>
+        [Authorize(Roles = "GestaoDePessoal")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
